@@ -13,7 +13,7 @@ SPIDER_MODULES = ["dataset_collector.spiders"]
 NEWSPIDER_MODULE = "dataset_collector.spiders"
 
 # Splash Setup
-SPLASH_URL = 'http://192.168.59.103:8050'
+SPLASH_URL = 'http://localhost:8050'
 DOWNLOADER_MIDDLEWARES = {
     'scrapy_splash.SplashCookiesMiddleware': 723,
     'scrapy_splash.SplashMiddleware': 725,
