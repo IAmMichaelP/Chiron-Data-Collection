@@ -2,25 +2,50 @@ from scrapy.spiders import CrawlSpider, Rule
 from scrapy.linkextractors import LinkExtractor
 from scrapy_splash import SplashRequest
 
+# class CrawlingSpider(CrawlSpider):
+#     name = "chironCrawler"
+#     allowed_domains = ["gmanetwork.com"]
+#     start_urls = ["https://www.gmanetwork.com/news"]
+
+#     # Modify the rule to match health and wellness article links more precisely
+#     rules = (
+#         Rule(LinkExtractor(allow="lifestyle/healthandwellness")),
+#         Rule(LinkExtractor(allow="healthandwellness"), follow=True),
+#         Rule(LinkExtractor(allow="archives/lifestyle-healthandwellness/")),
+#         Rule(LinkExtractor(allow=r"lifestyle/healthandwellness/\d+/*")),
+#         # Rule(LinkExtractor(allow=r"lifestyle/healthandwellness/\d+/.+/story/"), callback="parse_item", follow=True),
+        
+#     )
+
+
+
+# from scrapy_splash import SplashRequest
+# from scrapy.spiders import CrawlSpider
+
+# class CrawlingSpider(CrawlSpider):
+#     name = "chironCrawler"
+
+#     def start_requests(self):
+#         url = 'https://www.gmanetwork.com/news/lifestyle/healthandwellness/922501/phasing-out-teen-smoking-could-save-1-2-million-lives-who-cancer-agency-study/story/'
+#         yield SplashRequest(url=url, callback=self.parse, args={'wait': 5})  # Increase wait time
+    
+#     def parse(self, response):
+#         yield {
+#             'title': response.css('.story_links::text').get(),
+#             'body': response.css('.story_main p::text').getall(),
+#         }
+
+#  ----------------------------
+
 class CrawlingSpider(CrawlSpider):
     name = "chironCrawler"
-    allowed_domains = ["gmanetwork.com"]
-    start_urls = ["https://www.gmanetwork.com/news/lifestyle/healthandwellness/"]
 
-    # Modify the rule to match health and wellness article links more precisely
-    rules = (
-        Rule(LinkExtractor(allow=r"lifestyle/healthandwellness/\d+/.+/story/"), callback="parse_item", follow=True),
-    )
-
-    # This method processes the response using SplashRequest
-    def parse_item(self, response):
-        # Instead of directly parsing the item, use SplashRequest for JS rendering
-        yield SplashRequest(url=response.url, callback=self.parse_with_splash, args={'wait': 5})
-
-    # This method parses the response after rendering with Splash
-    def parse_with_splash(self, response):
+    def start_requests(self):
+        url = 'https://www.gmanetwork.com/news/archives/lifestyle-healthandwellness/'
+        yield SplashRequest(url=url, callback=self.parse, args={'wait': 5})  # Increase wait time
+    
+    def parse(self, response):
         yield {
-            "url": response.url,  # The URL being scraped
-            "title": response.css('.story_links::text').get(),  # Extract the title
-            "body": response.css('.story_main p::text').getall(),  # Extract the body
+            'title': response.css('.story_link::text').getall(),
+            # 'body': response.css('.story_main p::text').getall(),
         }
