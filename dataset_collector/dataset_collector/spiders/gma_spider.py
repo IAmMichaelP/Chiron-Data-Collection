@@ -89,6 +89,6 @@ class CrawlingSpider(CrawlSpider):
     
     def parse(self, response):
         yield {
-            'title': response.css('.story_link::attr(href)').getall(),
-            # 'body': response.css('.story_main p::text').getall(),
+            'link': response.css('.story_link::attr(href)').getall(),
+            'title': response.css('.story_link::attr(title)').getall(),
         }
