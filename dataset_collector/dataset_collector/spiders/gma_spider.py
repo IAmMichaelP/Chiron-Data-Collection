@@ -84,7 +84,7 @@ class CrawlingSpider(CrawlSpider):
     """
 
     def start_requests(self):
-        url = 'https://www.gmanetwork.com/news/archives/lifestyle-healthandwellness/'
+        url = 'https://www.gmanetwork.com/news/archives/lifestyle-healthandwellness/2/'
         yield SplashRequest(url=url, callback=self.parse, args={'wait': 8})  # Increase wait time
     
     def parse(self, response):

@@ -1,6 +1,9 @@
 from scrapy.spiders import CrawlSpider, Rule
 from scrapy.linkextractors import LinkExtractor
 from scrapy_splash import SplashRequest
+from scrapy.utils.request import request_fingerprint
+# fp = crawler.request_fingerprinter.fingerprint(request)
+
 
 class CrawlingSpider(CrawlSpider):
     name = "philstarCrawler"
