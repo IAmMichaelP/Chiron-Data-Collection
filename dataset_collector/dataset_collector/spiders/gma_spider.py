@@ -52,42 +52,41 @@ from scrapy_splash import SplashRequest
 
 
 
-
 class CrawlingSpider(CrawlSpider):
     name = "gmaCrawler"
 
-    # Lua script to scroll to the bottom of the page
+    # Lua script for Splash to scroll and wait for lazy-loaded content
     lua_script = """
     function main(splash, args)
-        splash:go(args.url)
-        splash:wait(2)  -- Wait for the page to load
+      splash.private_mode_enabled = false  -- Disable private mode for better page performance
+      splash:set_viewport_full()  -- Set viewport to full page to handle dynamic content better
+      splash:go(args.url)
+      splash:wait(3)  -- Wait for the initial page load
+      
+      -- Simulate scrolling to the bottom multiple times
+      for i = 1, 10 do
+        splash:runjs("window.scrollTo(0, document.body.scrollHeight);")
+        splash:wait(3)  -- Increase wait time for lazy-loaded content
+      end
 
-        -- Scroll to the bottom of the page in steps
-        local scroll_to_bottom = splash:jsfunc([[
-            function () {
-                window.scrollTo(0, document.body.scrollHeight);
-            }
-        ]])
-
-        -- Scroll multiple times to ensure the page is fully loaded
-        local max_scrolls = 10
-        for i = 1, max_scrolls do
-            scroll_to_bottom()
-            splash:wait(2)  -- Adjust the wait time for your page
-        end
-
-        return {
-            html = splash:html(),
-            url = splash:url(),
-        }
+      return {
+        html = splash:html(),  -- Return the rendered HTML after scrolling
+      }
     end
     """
 
     def start_requests(self):
-        url = 'https://www.gmanetwork.com/news/archives/lifestyle-healthandwellness/2/'
-        yield SplashRequest(url=url, callback=self.parse, args={'wait': 8})  # Increase wait time
-    
+        url = 'https://www.gmanetwork.com/news/archives/lifestyle-healthandwellness/12/'
+        # Send a SplashRequest with the Lua script to scroll and load content
+        yield SplashRequest(
+            url=url, 
+            callback=self.parse, 
+            endpoint='execute',  # Execute the Lua script
+            args={'lua_source': self.lua_script, 'timeout': 90, 'resource_timeout': 20}
+        )
+
     def parse(self, response):
+        # Extract article links and titles
         yield {
             'link': response.css('.story_link::attr(href)').getall(),
             'title': response.css('.story_link::attr(title)').getall(),
