@@ -61,12 +61,12 @@ class CrawlingSpider(CrawlSpider):
       splash.private_mode_enabled = false  -- Disable private mode for better page performance
       splash:set_viewport_full()  -- Set viewport to full page to handle dynamic content better
       splash:go(args.url)
-      splash:wait(3)  -- Wait for the initial page load
+      splash:wait(5)  -- Wait for the initial page load
       
       -- Simulate scrolling to the bottom multiple times
-      for i = 1, 10 do
+      for i = 1, 20 do
         splash:runjs("window.scrollTo(0, document.body.scrollHeight);")
-        splash:wait(3)  -- Increase wait time for lazy-loaded content
+        splash:wait(2)  -- Increase wait time for lazy-loaded content
       end
 
       return {
@@ -76,7 +76,7 @@ class CrawlingSpider(CrawlSpider):
     """
 
     def start_requests(self):
-        url = 'https://www.gmanetwork.com/news/archives/lifestyle-healthandwellness/12/'
+        url = 'https://www.gmanetwork.com/news/archives/lifestyle-healthandwellness/'
         # Send a SplashRequest with the Lua script to scroll and load content
         yield SplashRequest(
             url=url, 
