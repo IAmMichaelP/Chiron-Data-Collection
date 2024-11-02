@@ -2,7 +2,7 @@ import pandas as pd
 import ast
 
 # Step 1: Read the CSV file using pandas
-df = pd.read_csv(r"C:\xampp\htdocs\GitHub\Chiron\dataset_collector\philippine-inquirer.csv")
+df = pd.read_csv(r"C:\xampp\htdocs\GitHub\Chiron\dataset_collector\eagleNews.csv")
 
 # Step 2: Function to split a string by commas and create an array
 def parse_string_to_array(val):
@@ -37,8 +37,8 @@ for index, row in df.iterrows():
 exploded_df = pd.DataFrame(rows)
 
 # Step 6: Write the new exploded DataFrame to a CSV file
-# exploded_df.to_csv('exploded_file.csv', index=False)
-exploded_df.to_csv('exploded_file.csv', mode='a', index=False, header=False)
+exploded_df.to_csv('exploded_eagleNews.csv', index=False)
+# exploded_df.to_csv('exploded_file.csv', mode='a', index=False, header=False)
 
 print("Data processing complete. Check 'exploded_file.csv' for the results.")
 
