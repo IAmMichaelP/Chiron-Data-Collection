@@ -17,9 +17,9 @@ class CrawlingSpider(CrawlSpider):
       splash:wait(5)  -- Wait for the initial page load
       
       -- Simulate scrolling to the bottom multiple times
-      for i = 1, 30 do
+      for i = 1, 20 do
         splash:runjs("window.scrollTo(0, document.body.scrollHeight);")
-        splash:wait(2)  -- Increase wait time for lazy-loaded content
+        splash:wait(3)  -- Increase wait time for lazy-loaded content
       end
 
       return {
