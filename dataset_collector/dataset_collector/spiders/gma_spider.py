@@ -11,14 +11,8 @@ class CrawlingSpider(CrawlSpider):
       splash.private_mode_enabled = false  -- Disable private mode for better performance
       splash:set_viewport_full()  -- Set viewport to full page to handle dynamic content better
       splash:go(args.url)
-      splash:wait(5)  -- Wait for the initial page load
-
-      -- Simulate scrolling to the bottom multiple times
-      for i = 1, args.scroll_depth do
-        splash:runjs("window.scrollTo(0, document.body.scrollHeight);")
-        splash:wait(2)  -- Increase wait time for lazy-loaded content
-      end
-
+      splash:wait(2)  -- Wait for the initial page load
+      
       return {
         html = splash:html(),  -- Return the rendered HTML after scrolling
       }
@@ -33,7 +27,7 @@ class CrawlingSpider(CrawlSpider):
             url=url,
             callback=self.parse,
             endpoint='execute',
-            args={'lua_source': self.lua_script, 'timeout': 90, 'resource_timeout': 20, 'scroll_depth': 20},
+            args={'lua_source': self.lua_script, 'timeout': 90, 'resource_timeout': 20, 'scroll_depth': 30},
             meta={'scraped_links': set(), 'scroll_count': 1}  # Track scraped links and scroll count
         )
 
@@ -47,6 +41,7 @@ class CrawlingSpider(CrawlSpider):
         titles = response.css('.story_link::attr(title)').getall()
 
         has_new_content = False
+        print("after false declaration")
         # Yield only new links that haven't been scraped yet
         for link, title in zip(new_links, titles):
             if link not in scraped_links:
@@ -64,7 +59,7 @@ class CrawlingSpider(CrawlSpider):
                 url=response.url,
                 callback=self.parse,
                 endpoint='execute',
-                args={'lua_source': self.lua_script, 'timeout': 90, 'resource_timeout': 20, 'scroll_depth': 20},
+                args={'lua_source': self.lua_script, 'timeout': 90, 'resource_timeout': 20, 'scroll_depth': 60},
                 meta={'scraped_links': scraped_links, 'scroll_count': scroll_count},
                 dont_filter=True  # Avoid filtering duplicate requests
             )

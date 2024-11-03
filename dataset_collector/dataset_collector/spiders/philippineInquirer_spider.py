@@ -15,8 +15,18 @@ class CrawlingSpider(CrawlSpider):
 
       -- Simulate scrolling to the bottom multiple times
       for i = 1, args.scroll_depth do
-        splash:runjs("window.scrollTo(0, document.body.scrollHeight);")
-        splash:wait(2)  -- Increase wait time for lazy-loaded content
+        -- Scroll to bottom of the specific element
+        splash:runjs([[
+            const element = document.querySelector(".elementor-widget-container");
+            if (element) {
+                const elementBottom = element.offsetTop + element.scrollHeight;
+                window.scrollTo({
+                    top: elementBottom,
+                    behavior: 'smooth'
+                });
+            }
+        ]])
+        splash:wait(2)  -- Wait for scroll to complete
       end
 
       return {
@@ -47,6 +57,7 @@ class CrawlingSpider(CrawlSpider):
         titles = response.css('.elementor-post__title a::text').getall()
 
         has_new_content = False
+        print("after false declaration")
         # Yield only new links that haven't been scraped yet
         for link, title in zip(new_links, titles):
             if link not in scraped_links:
