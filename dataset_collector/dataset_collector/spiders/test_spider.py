@@ -11,7 +11,7 @@ import time
 df = pd.read_csv(r"C:\xampp\htdocs\GitHub\Chiron\dataset_collector\gma_new.csv")
 
 class CrawlingSpider(CrawlSpider):
-    name = "evalScraper"
+    name = "testScraper"
 
     # Lua script for Splash to scroll and wait for lazy-loaded content
     lua_script = """
@@ -38,24 +38,21 @@ class CrawlingSpider(CrawlSpider):
             callback=self.parse,
             endpoint='execute',
             args={'lua_source': self.lua_script, 'timeout': 90, 'resource_timeout': 20},
-            meta={'index': index, 'title': row['title']}  # Pass the index and title to the next step
         )
 
     # Step 3: Define the parse method to scrape the content
     def parse(self, response):
         # Scrape content from the page
         # Extract article links and titles
-        self.logger.info(response.text) 
-        title = response.css('title::text').get() 
-        self.logger.info(f'Title: {title}')
         
-        # headline = response.css('h1.story_links::text').getall()
-        # content = response.css('.story_main p::text').getall()
+        headline = response.css('h1::text').getall()
+        content = response.css('p::text').getall()
         yield {
-            'title': title,
+            'headline': headline,
+            'content': content,
         }
 
 
-# fetch('http://localhost:8050/render.html?url=https://www.gmanetwork.com/news/lifestyle/healthandwellness/925712/iya-villania-s-no-1-tip-on-how-to-raise-four-kids-and-carry-a-fifth-be-fit-and-healthy/story/')
+# fetch('http://localhost:8050/render.html?url=https://www.gmanetwork.com/news/lifestyle/healthandwellness/925712/iya-villania-s-no-1-tip-on-how-to-raise-four-kids-and-carry-a-fifth-be-fit-and-healthy/story/')fetch('http://localhost:8050/render.html?url=https://www.gmanetwork.com/news/lifestyle/healthandwellness/925712/iya-villania-s-no-1-tip-on-how-to-raise-four-kids-and-carry-a-fifth-be-fit-and-healthy/story/')
 
 # fetch('http://localhost:8050/render.html?url=https://www.gmanetwork.com/news/archives/lifestyle-healthandwellness/')

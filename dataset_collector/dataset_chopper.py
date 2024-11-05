@@ -1,8 +1,8 @@
 import pandas as pd
 
 # Step 1: Read the CSV file using pandas
-# df = pd.read_csv(r"C:\xampp\htdocs\GitHub\Chiron\dataset_collector\gma_new.csv")
-df = pd.read_csv(r"C:\xampp\htdocs\GitHub\Chiron\dataset_collector\exploded_eagleNews.csv")
+df = pd.read_csv(r"C:\xampp\htdocs\GitHub\Chiron\dataset_collector\gma_new.csv")
+# df = pd.read_csv(r"C:\xampp\htdocs\GitHub\Chiron\dataset_collector\exploded_eagleNews.csv")
 
 # Step 2: Limit the DataFrame to the first 100 rows
 # df = df.head(100)  # This will select only the first 100 rows
