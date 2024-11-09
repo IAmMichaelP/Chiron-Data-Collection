@@ -17,7 +17,7 @@ def check_proxies():
         proxy = q.get()
         try:
             res = requests.get("http://ipinfo.io/json", 
-                               proxies={ "http": proxy, "https:": proxy})
+                               proxies={ "http": proxy, "https": proxy}, timeout=5)
         except:
             continue
 

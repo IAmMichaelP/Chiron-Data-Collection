@@ -15,40 +15,12 @@ NEWSPIDER_MODULE = "dataset_collector.spiders"
 # Splash Setup
 SPLASH_URL = 'http://localhost:8050'
 
-# Enable or disable the rotating proxies middleware
-# ROTATING_PROXY_LIST = [
-#     'us-ca.proxymesh.com:31280',  # replace these with actual proxies
-#     'us-wa.proxymesh.com:31280',
-#     'world.proxymesh.com:31280',
-#     'jp.proxymesh.com:31280',
-#     'au.proxymesh.com:31280',
-#     'de.proxymesh.com:31280',
-#     'nl.proxymesh.com:31280',
-#     'sg.proxymesh.com:31280',
-#     'us-il.proxymesh.com:31280',
-#     'us-tx.proxymesh.com:31280',
-#     'us-dc.proxymesh.com:31280',
-#     'us-ny.proxymesh.com:31280',
-#     'uk.proxymesh.com:31280',
-#     'ch.proxymesh.com:31280',
-#     'us-fl.proxymesh.com:31280',
-#     'in.proxymesh.com:31280',
-#     'open.proxymesh.com:31280',
-#     'usisp.proxymesh.com:31280'
-#     # add as many proxies as you want
-# ]
-
-ROTATING_PROXY_LIST_PATH = 'proxies.txt'
-
 DOWNLOADER_MIDDLEWARES = {
-    'rotating_proxies.middlewares.RotatingProxyMiddleware': 610,
-    'rotating_proxies.middlewares.BanDetectionMiddleware': 620,
-    'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware': 1,
     'scrapy_splash.SplashCookiesMiddleware': 723,
     'scrapy_splash.SplashMiddleware': 725,
     'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware': 810,
 }
-ROTATING_PROXY_PAGE_RETRY_TIMES = 20  # Adjust the number to fit your needs
+
 SPIDER_MIDDLEWARES = {
     'scrapy_splash.SplashDeduplicateArgsMiddleware': 100,
     

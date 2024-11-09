@@ -8,7 +8,25 @@ import time
 # df = pd.read_csv(r"C:\xampp\htdocs\GitHub\Chiron\dataset_collector\dataset1.csv")
 # print(df.head(10))
 # print("Number of rows in final dataframe:", len(df))
-df = pd.read_csv(r"C:\xampp\htdocs\GitHub\Chiron\dataset_collector\gma_new.csv")
+import random  # To randomly pick a proxy from the list
+
+# Step 1: Read the CSV file using pandas
+df = pd.read_csv(r"C:\xampp\htdocs\GitHub\Chiron\dataset_collector\TSE.csv")
+print(df.head(10))
+
+# Proxy list
+PROXY_LIST = [
+    '54.248.238.110:80',
+    '52.196.1.182:80',
+    '35.72.118.126:80',
+    '13.38.176.104:3128',
+    '5.9.238.29:80',
+    # Add as many proxies as needed...
+]
+
+def get_random_proxy():
+    """Pick a random proxy from the proxy list."""
+    return random.choice(PROXY_LIST)
 
 class CrawlingSpider(CrawlSpider):
     name = "evalScraper"
@@ -30,32 +48,31 @@ class CrawlingSpider(CrawlSpider):
     # Step 2: Define the start_requests method to iterate over links
     def start_requests(self):
 
-        url = df['link']  # Get the URL for each row
-        url = url[0]
-
+        # url = df['link']  # Get the URL for each row
+        url = 'https://www.eaglenews.ph/zimbabwe-reports-first-two-mpox-cases-of-unspecified-variant/'
+        proxy = get_random_proxy()  # Get a random proxy for each request
         yield SplashRequest(
             url=url,
             callback=self.parse,
             endpoint='execute',
             args={'lua_source': self.lua_script, 'timeout': 90, 'resource_timeout': 20},
-            meta={'index': index, 'title': row['title']}  # Pass the index and title to the next step
+            splash_headers={'proxy': f'http://{proxy}'},  # Pass the proxy to Splash
+            
         )
 
     # Step 3: Define the parse method to scrape the content
     def parse(self, response):
-        # Scrape content from the page
-        # Extract article links and titles
-        self.logger.info(response.text) 
-        title = response.css('title::text').get() 
-        self.logger.info(f'Title: {title}')
-        
-        # headline = response.css('h1.story_links::text').getall()
-        # content = response.css('.story_main p::text').getall()
+        content = response.css('.entry-content p::text').getall()
+        content = ''.join(content).strip()
         yield {
-            'title': title,
+            'title': content,
         }
+
+
 
 
 # fetch('http://localhost:8050/render.html?url=https://www.gmanetwork.com/news/lifestyle/healthandwellness/925712/iya-villania-s-no-1-tip-on-how-to-raise-four-kids-and-carry-a-fifth-be-fit-and-healthy/story/')
 
 # fetch('http://localhost:8050/render.html?url=https://www.gmanetwork.com/news/archives/lifestyle-healthandwellness/')
+# fetch('http://localhost:8050/render.html?url=https://www.thesummitexpress.com/2024/10/miracle-doc-willie-ong-cancer-shrank-60-percent.html')
+# fetch('http://localhost:8050/render.html?url=https://books.toscrape.com/catalogue/category/books_1/index.html')
