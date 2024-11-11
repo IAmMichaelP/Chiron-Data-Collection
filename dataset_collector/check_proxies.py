@@ -21,8 +21,10 @@ def check_proxies():
         except:
             continue
 
+        # if res.status_code == 200:
+        #     print(proxy)
         if res.status_code == 200:
-            print(proxy)
+            print(f"'{proxy}'")
 
 for _ in range(10):
     threading.Thread(target=check_proxies).start()
