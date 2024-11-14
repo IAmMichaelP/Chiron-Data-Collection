@@ -6,7 +6,7 @@ import time
 
 # Step 1: Read the CSV file using pandas
 df = pd.read_csv(r"C:\xampp\htdocs\GitHub\Chiron\dataset_collector\gma_new.csv")
-df = df.iloc[0:100]
+
 print(df.head(10))
 
 class CrawlingSpider(CrawlSpider):
