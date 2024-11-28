@@ -1,7 +1,7 @@
 import pandas as pd
 import re
 
-df = pd.read_csv(r"C:\xampp\htdocs\GitHub\Chiron\dataset_collector\dataset1.csv")
+df = pd.read_csv(r"C:\Users\agaro\Documents\GitHub\Chiron\dataset_collector\dataset4.csv")
 
 print(df.head(100))
 # Define a function to add 'https://' if the link doesn't start with it
@@ -10,7 +10,7 @@ def edit_content(content):
     return content
 
 # Apply the function to the 'links' column
-df['content'] = df['content'].apply(edit_content)
+# df['content'] = df['content'].apply(edit_content)
 
 # Save the updated DataFrame back to a CSV file
 

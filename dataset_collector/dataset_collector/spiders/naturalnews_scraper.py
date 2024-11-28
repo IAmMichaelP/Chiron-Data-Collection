@@ -8,7 +8,7 @@ import re
 
 # Step 1: Read the CSV file using pandas
 df = pd.read_csv(r"C:\Users\agaro\Documents\GitHub\Chiron\dataset_collector\naturalnews_updated.csv")
-df = df.iloc[0:500]
+df = df.iloc[500:1000]
 print(df.head(10))
 
 # Proxy list
@@ -83,4 +83,5 @@ class CrawlingSpider(CrawlSpider):
     # Step 5: Define the method to write the results to CSV after scraping is done
     def closed(self, reason):
         # Write the updated DataFrame with content to a new CSV file
-        df.to_csv('dataset3.csv', index=False)
+        # df.to_csv('dataset3.csv', index=False)
+        df.to_csv('dataset3.csv', mode='a', index=False, header=False)

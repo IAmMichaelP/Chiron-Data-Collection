@@ -2,12 +2,28 @@
 import pandas as pd
 from scrapy.spiders import CrawlSpider
 from scrapy_splash import SplashRequest
-import time
+import time, re, random
 
 # Step 1: Read the CSV file using pandas
 df = pd.read_csv(r"C:\xampp\htdocs\GitHub\Chiron\dataset_collector\gma_new.csv")
 
 print(df.head(10))
+# Proxy list
+PROXY_LIST = [
+    '52.196.1.182:80',
+    '43.201.121.81:80',
+    '44.195.247.145:80',
+    '13.38.176.104:3128',
+    '44.219.175.186:80',
+    '18.185.169.150:3128',
+    '18.228.149.161:80',
+    '3.212.148.199:80',
+    '3.78.92.159:3128'
+]
+
+def get_random_proxy():
+    """Pick a random proxy from the proxy list."""
+    return random.choice(PROXY_LIST)
 
 class CrawlingSpider(CrawlSpider):
     name = "gmaScraper"
@@ -30,12 +46,14 @@ class CrawlingSpider(CrawlSpider):
     def start_requests(self):
         for index, row in df.iterrows():
             url = row['link']  # Get the URL for each row
+            proxy = get_random_proxy()  # Get a random proxy for each request
             time.sleep(2)
             yield SplashRequest(
                 url=url,
                 callback=self.parse,
                 endpoint='execute',
                 args={'lua_source': self.lua_script, 'timeout': 90, 'resource_timeout': 20},
+                splash_headers={'proxy': f'http://{proxy}'},  # Pass the proxy to Splash
                 meta={'index': index, 'title': row['title']}  # Pass the index and title to the next step
             )
 
@@ -43,11 +61,9 @@ class CrawlingSpider(CrawlSpider):
     def parse(self, response):
         # Scrape content from the page
         # Extract article links and titles
-        
-        headline = response.css('h1.story_links::text').getall()
         content = response.css('.story_main p::text').getall()
         content = ''.join(content)
-        content = f"{headline} {content}"
+        content = re.sub(r'\s+', ' ', content).strip()
         
 
         # Get the index and title from the meta information passed
@@ -63,4 +79,6 @@ class CrawlingSpider(CrawlSpider):
     # Step 5: Define the method to write the results to CSV after scraping is done
     def closed(self, reason):
         # Write the updated DataFrame with content to a new CSV file
-        df.to_csv('dataset2.csv', index=False)
+        df.to_csv('dataset1.csv', index=False)
+
+# fetch('http://localhost:8050/render.html?url=https://www.gmanetwork.com/news/lifestyle/healthandwellness/925712/iya-villania-s-no-1-tip-on-how-to-raise-four-kids-and-carry-a-fifth-be-fit-and-healthy/story/')

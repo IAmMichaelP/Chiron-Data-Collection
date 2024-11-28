@@ -9,7 +9,7 @@ import random
 # Step 1: Read the CSV file using pandas
 df = pd.read_csv(r"C:\xampp\htdocs\GitHub\Chiron\dataset_collector\businessmirror.csv")
 print(df.head(10))
-df = df.iloc[0:500]
+df = df.iloc[500:1000]
 
 # Proxy list
 PROXY_LIST = [
