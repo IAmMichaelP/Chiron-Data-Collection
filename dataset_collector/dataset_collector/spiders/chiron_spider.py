@@ -1,15 +1,19 @@
-from scrapy_splash import SplashRequest
-from scrapy.spiders import CrawlSpider
+from scrapy.spiders import CrawlSpider, Rule
+from scrapy.linkextractors import LinkExtractor
+
 
 class CrawlingSpider(CrawlSpider):
     name = "chironCrawler"
+    allowed_domains = ["gmanetwork.com"]
+    start_urls = ["https://www.gmanetwork.com"] 
 
-    def start_requests(self):
-        url = 'https://www.gmanetwork.com/news/lifestyle/healthandwellness/922501/phasing-out-teen-smoking-could-save-1-2-million-lives-who-cancer-agency-study/story/'
-        yield SplashRequest(url=url, callback=self.parse, args={'wait': 5})  # Increase wait time
-    
-    def parse(self, response):
+    rules = (
+        Rule(LinkExtractor(), callback="parse_item", follow=True),
+        # Rule(LinkExtractor(allow="catalogue", deny="category"), callback="parse_item"), 
+    )
+
+    def parse_item(self, response):
         yield {
-            'title': response.css('.story_links::text').get(),
-            'body': response.css('.story_main p::text').getall(),
+            "title": response.css('.story_links::text').get(),
+            "body": response.css('.story_main p::text').getall(),
         }
