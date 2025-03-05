@@ -7,8 +7,8 @@ df = pd.read_csv(r"C:\Users\agaro\Documents\GitHub\Chiron\dataset_collector\data
 df['annotation'] = 0
 
 # Step 3: Write the updated DataFrame to a CSV file
-# df.to_csv('chiron.csv', index=False)
-df.to_csv('chiron.csv', mode='a', index=False, header=False)
+df.to_csv('natural_news.csv', index=False)
+# df.to_csv('annotated_gma.csv', mode='a', index=False, header=False)
 
 print("Data processing complete. Check 'chiron.csv' for the results.")
 
