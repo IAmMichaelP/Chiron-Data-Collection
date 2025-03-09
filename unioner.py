@@ -1,11 +1,15 @@
 import pandas as pd
 
 # Step 1: Read the CSV file
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream:dataset_collector/unioner.py
 input_file = r"C:\Users\agaro\Documents\GitHub\Chiron\dataset_collector\annotated_dataset4.csv"
 =======
 input_file = r"C:\Users\agaro\Documents\GitHub\Chiron\annotated_info_war.csv"
 >>>>>>> Stashed changes:unioner.py
+=======
+input_file = r"C:\Users\agaro\Documents\GitHub\Chiron\annotated_info_war.csv"
+>>>>>>> Stashed changes
 df = pd.read_csv(input_file)
 
 # Step 2: Verify and select only the required columns
@@ -17,6 +21,7 @@ if all(column in df.columns for column in required_columns):
 else:
     raise ValueError("The input CSV file does not contain the required columns: link, title, annotation, content.")
 
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream:dataset_collector/unioner.py
 # Step 3: Define the output file path
 output_file = r"./dataset_collector/chiron_authentic.csv"
@@ -24,6 +29,10 @@ output_file = r"./dataset_collector/chiron_authentic.csv"
 # Step 3: Preprocess the 'content' column to remove newlines
 df['content'] = df['content'].str.replace('\n', ' ', regex=True)  # Replace newlines with spaces
 >>>>>>> Stashed changes:unioner.py
+=======
+# Step 3: Preprocess the 'content' column to remove newlines
+df['content'] = df['content'].str.replace('\n', ' ', regex=True)  # Replace newlines with spaces
+>>>>>>> Stashed changes
 
 # Step 4: Define the output file path
 output_file = r"./chiron_content.csv"

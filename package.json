@@ -5,12 +5,18 @@
     "numpy": "^0.0.1",
     "pandas": "^0.0.3",
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     "puppeteer": "^24.2.0"
 =======
+=======
+>>>>>>> Stashed changes
     "papaparse": "^5.5.2",
     "puppeteer": "^24.2.0",
     "sklearn": "^1.0.0",
     "string": "^3.3.3"
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
   }
 }
