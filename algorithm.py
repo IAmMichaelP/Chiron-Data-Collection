@@ -22,7 +22,7 @@ nltk.download('punkt')
 nltk.download('stopwords')
 nltk.download('punkt_tab')
 
-data = r"C:\Users\agaro\Documents\GitHub\Chiron\chiron_content.csv"
+data = r"C:\Users\agaro\Documents\GitHub\Chiron\dataset1.csv"
 
 df = pd.DataFrame(data)
 
