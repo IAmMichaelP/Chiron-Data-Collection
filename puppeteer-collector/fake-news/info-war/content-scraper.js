@@ -51,7 +51,7 @@ const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
                         // Add the scraped content to the row
                         row['content'] = paragraphs.join('\n'); // Combine paragraphs into a single string
 
-                        // Introduce a 15-second delay before processing the next row
+                        // Introduce a 5-second delay before processing the next row
                         await delay(5000);
                     } catch (error) {
                         console.error(`Error processing ${columnValue}:`, error);

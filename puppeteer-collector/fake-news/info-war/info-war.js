@@ -6,7 +6,7 @@ const csvWriter = require("csv-writer").createObjectCsvWriter;
 (async () => {
     let browser;
     try {
-        browser = await puppeteer.launch({ headless: false, slowMo: 50 }); // Set headless: true for faster execution
+        browser = await puppeteer.launch({ headless: false, slowMo: 0 }); // Set headless: true for faster execution
         const page = await browser.newPage();
         await page.goto('https://www.infowars.com/category/health', { waitUntil: 'networkidle2' });
 

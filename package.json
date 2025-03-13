@@ -5,19 +5,6 @@
     "nltk": "^0.0.1",
     "numpy": "^0.0.1",
     "pandas": "^0.0.3",
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-=======
-    "papaparse": "^5.5.2",
->>>>>>> main
-    "puppeteer": "^24.2.0"
-=======
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
     "papaparse": "^5.5.2",
     "puppeteer": "^24.2.0",
     "sklearn": "^1.0.0",
