@@ -55,7 +55,7 @@ const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
                         const articleBodySelector = '.content-repository-content'; // Selector for the article body
                         const dateSelector = 'time[datetime]'; // Selector for the date
                         const authorSelector = 'address a[rel="author"]'; // Selector for the author
-
+                        
                         // Wait for the selector to appear on the page
                         await page.waitForSelector(articleBodySelector, { timeout: 5000 });
 
@@ -89,7 +89,7 @@ const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
                         row['content'] = paragraphs.join('\n'); // Combine paragraphs into a single string
                         row['author'] = author; // Add the author
                         row['date'] = date; // Add the date
-                        
+
                         // Introduce a 15-second delay before processing the next row
                         await delay(3000);
                     } catch (error) {
