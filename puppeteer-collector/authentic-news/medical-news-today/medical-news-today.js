@@ -1,84 +1,81 @@
 const puppeteer = require("puppeteer");
 const fs = require("fs");
-const Papa = require("papaparse");
 const path = require("path");
-
-const outputCsvPath = path.join(__dirname, "medical_news_today.csv");
+const csvWriter = require("csv-writer").createObjectCsvWriter;
 
 (async () => {
-    const browser = await puppeteer.launch({ headless: false, slowMo: 50 });
-    const page = await browser.newPage();
+    let browser;
+    try {
+        browser = await puppeteer.launch({ headless: false, slowMo: 0 });
+        const page = await browser.newPage();
+        await page.goto('https://www.medicalnewstoday.com/news');
 
-    const url = "https://www.medicalnewstoday.com/"; 
-    await page.goto(url, { waitUntil: "networkidle2" });
+        const moreButtonSelector = 'button.sc-c8bbe1ac-0.sc-e8711556-0.haeKWy.jrfEVW'; // Selector for the "See More" button
+        const articleSelector = 'a.css-aw4mqk'; // Selector for each article title and link
+        // const authorSelector = '.css-19hhrie';
 
-    console.log("🔎 Scrolling to load more articles...");
+        let results = [];
+        let uniqueLinks = new Set(); // To track unique articles
 
-    // Scroll to load more articles
-    await page.evaluate(async () => {
-        await new Promise(resolve => {
-            let totalHeight = 0;
-            const distance = 500;
-            const timer = setInterval(() => {
-                window.scrollBy(0, distance);
-                totalHeight += distance;
-                if (totalHeight >= document.body.scrollHeight) {
-                    clearInterval(timer);
-                    resolve();
-                }
-            }, 300);
-        });
-    });
-
-    console.log("🔎 Scraping article links...");
-
-    // Extract article links
-    const articleLinks = await page.$$eval("a", anchors =>
-        anchors
-            .map(a => a.href.trim())
-            .filter(href => href.includes("medicalnewstoday.com/articles/") && href.startsWith("https"))
-    );    
-
-    // Remove duplicates
-    const uniqueLinks = [...new Set(articleLinks)];
-
-    console.log(`✅ Found ${uniqueLinks.length} articles.`);
-    
-    let articles = [];
-
-    for (let link of uniqueLinks) {
-        console.log(`📄 Scraping: ${link}`);
-        
-        try {
-            const articlePage = await browser.newPage();
-            await articlePage.goto(link, { waitUntil: "networkidle2" });
-
-            const title = await articlePage.$eval("h1", el => el.innerText.trim());
-            
-            const content = await articlePage.$$eval("p", paragraphs => 
-                paragraphs.map(p => p.innerText.trim()).join(" ")
-            );
-
-            let author = "Unknown";
+        for (let i = 0; i < 20; i++) {
             try {
-                author = await articlePage.$eval("a.css-u1nnpx", el => el.innerText.trim());
+                // Wait for articles to load
+                await page.waitForSelector(articleSelector, { timeout: 5000 });
+
+                // Extract links and titles
+                const articles = await page.evaluate((articleSelector) => {
+                    return Array.from(document.querySelectorAll(articleSelector)).map(article => {
+                        const link = article.href; // Construct full URL
+                        const title = article.innerText.trim();
+                        // const author = authorSelector.innerText.trim();
+                        console.log(`Links: ${title} from ${link}`)
+                        return { link, title };
+                    });
+                }, articleSelector);
+
+                
+
+                // Add new articles to results, avoiding duplicates
+                articles.forEach(article => {
+                    if (article.link && article.title && !uniqueLinks.has(article.link)) {
+                        results.push(article);
+                        uniqueLinks.add(article.link);
+                    }
+                });
+
+                console.log(`Iteration ${i + 1}: ${articles.length} articles scraped.`);
+
+                // Try clicking the "See More" button, if available
+                const moreButton = await page.$(moreButtonSelector);
+                if (moreButton) {
+                    await moreButton.click();
+                    await new Promise(resolve => setTimeout(resolve, 2000)); // Wait for new content to load
+                } else {
+                    console.log("No more articles to load.");
+                    break; // Exit loop if no "See More" button
+                }
             } catch (error) {
-                console.log("⚠️ Author not found.");
-            }            
-
-            articles.push({ link, title, content, author });
-            await articlePage.close();
-
-        } catch (error) {
-            console.error(`❌ Error scraping ${link}: ${error.message}`);
+                console.error(`Error during iteration ${i + 1}:`, error);
+                break; // Exit loop if an error occurs
+            }
         }
+
+        // Save results to CSV
+        const csvPath = path.join(__dirname, "scraped_data.csv");
+        const writer = csvWriter({
+            path: csvPath,
+            header: [
+                { id: "link", title: "link" },
+                { id: "title", title: "title" },
+                // { id: "author", title: "author" }
+            ]
+        });
+
+        await writer.writeRecords(results);
+        console.log(`Scraping complete. Data saved to ${csvPath}`);
+    } catch (error) {
+        console.error("An error occurred:", error);
+    } finally {
+        if (browser) await browser.close();
     }
-
-    // Convert to CSV format
-    const csvData = Papa.unparse(articles);
-    fs.writeFileSync(outputCsvPath, csvData, "utf8");
-
-    console.log(`✅ Data saved to: ${outputCsvPath}`);
-
-    await browser.close();
 })();
