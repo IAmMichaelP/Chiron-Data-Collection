@@ -16,28 +16,30 @@ const csvWriter = require("csv-writer").createObjectCsvWriter;
         let results = [];
         let uniqueLinks = new Set(); // To track unique articles
 
-        for (let pageNumber = 1; pageNumber <= 50; pageNumber++) {
+        for (let pageNumber = 1; pageNumber <= 70; pageNumber++) {
             try {
                 // Navigate to the current page
-                const url = pageNumber === 1 ? baseUrl : `${baseUrl}?pg=${pageNumber}`;
-                await page.goto(url, { waitUntil: 'networkidle2' });
+                const url = pageNumber === 1 ? baseUrl : `${baseUrl}?page=${pageNumber}`;
+                await page.goto(url, { waitUntil: 'domcontentloaded' });
+                page.reload();
 
                 // Wait for articles to load
                 await page.waitForSelector(articleSelector, { timeout: 5000 });
 
-                // Extract links and titles
+                // Only extract once (no loop), since content is static
                 const articles = await page.evaluate((articleSelector, titleSelector) => {
                     return Array.from(document.querySelectorAll(articleSelector)).map(article => {
-                        const link = article.href; // Full URL is already provided
+                        const link = article.href; 
                         const titleElement = article.querySelector(titleSelector);
                         const title = titleElement ? titleElement.innerText.trim() : "No Title";
-                        console.log(`Page title ${title} with link: ${link} is scraped.`);
+
                         return { link, title };
                     });
                 }, articleSelector, titleSelector);
 
-                // Add new articles to results, avoiding duplicates
+                // Add to results, avoiding duplicates
                 articles.forEach(article => {
+                    console.log(`Page title "${article.title}" with link: ${article.link} is scraped.`);
                     if (article.link && article.title && !uniqueLinks.has(article.link)) {
                         results.push(article);
                         uniqueLinks.add(article.link);

@@ -16,10 +16,10 @@ const csvWriter = require("csv-writer").createObjectCsvWriter;
         let results = [];
         let uniqueLinks = new Set(); // To track unique articles
 
-        for (let pageNumber = 1; pageNumber <= 50; pageNumber++) {
+        for (let pageNumber = 1; pageNumber <= 70; pageNumber++) {
             try {
                 // Navigate to the current page
-                const url = pageNumber === 1 ? baseUrl : `${baseUrl}?pg=${pageNumber}`;
+                const url = pageNumber === 1 ? baseUrl : `${baseUrl}?page=${pageNumber}`;
                 await page.goto(url, { waitUntil: 'networkidle2' });
 
                 // Wait for articles to load
