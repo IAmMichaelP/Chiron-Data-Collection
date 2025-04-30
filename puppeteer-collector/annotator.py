@@ -1,13 +1,13 @@
 import pandas as pd
 
 # Step 1: Read the CSV file using pandas
-df = pd.read_csv(r"C:\Users\agaro\Documents\GitHub\Chiron\puppeteer-collector\authentic-news\clinical-advisor\scraped_data.csv")
+df = pd.read_csv(r"C:\Users\agaro\Documents\GitHub\Chiron\puppeteer-collector\fake-news\health-impact\scraped_data.csv")
 
 # Step 2: Add 'annotation' column with a value of 0 for each row
-df['annotation'] = 1
+df['annotation'] = 0
 
 # Step 3: Write the updated DataFrame to a CSV file
-df.to_csv('annotated_clinical_advisor.csv', index=False)
+df.to_csv('annotated_health_impact.csv', index=False)
 # df.to_csv('annotated_gma.csv', mode='a', index=False, header=False)
 
 print("Data processing complete. Check 'chiron.csv' for the results.")

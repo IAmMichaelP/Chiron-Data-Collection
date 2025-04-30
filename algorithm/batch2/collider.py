@@ -1,8 +1,8 @@
 import pandas as pd
 
 # Step 1: Read the CSV file
-input_file = r"./annotated_health_impact.csv"
-df = pd.read_csv(input_file)
+input_file = r"annotated_health_impact.csv"
+df = pd.read_csv("annotated_medical_news.csv")
 
 # Step 2: Verify and select only the required columns
 required_columns = ['link', 'title', 'annotation', 'content']
