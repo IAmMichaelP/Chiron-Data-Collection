@@ -1,7 +1,7 @@
 import pandas as pd
 
 # Step 1: Read the CSV file
-input_file = r"batch2/dataset2.csv"
+input_file = r"batch3/dataset3.csv"
 df = pd.read_csv(input_file)
 
 # Step 2: Verify and select only the required columns
@@ -19,7 +19,7 @@ df['content'] = df['content'].str.replace('\s+', ' ', regex=True)  # Replace mul
 df['content'] = df['content'].str.strip()  # Remove leading and trailing spaces
 
 # Step 4: Define the output file path
-output_file = r"./dataset2.csv"
+output_file = r"./dataset3.csv"
 
 # Step 5: Check if the output file already exists
 if not pd.io.common.file_exists(output_file):
