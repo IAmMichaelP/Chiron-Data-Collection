@@ -8,7 +8,7 @@ const csvWriter = require("csv-writer").createObjectCsvWriter;
     try {
         browser = await puppeteer.launch({ headless: false, slowMo: 0 }); // Set headless: true for faster execution
         const page = await browser.newPage();
-        await page.goto('https://www.infowars.com/category/health', { waitUntil: 'networkidle2' });
+        await page.goto('https://www.infowars.com/category/politics', { waitUntil: 'networkidle2' });
 
         const articleSelector = 'div._postContent_1l3h4_22'; // Selector for each article block
         const titleSelector = 'h4 a'; // Selector for the title
