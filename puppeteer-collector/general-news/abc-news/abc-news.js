@@ -14,7 +14,7 @@ const csvWriter = require("csv-writer").createObjectCsvWriter;
     const loadMoreSelector = 'button[data-component="PaginationLoadMoreButton"]';
 
     let results = [];
-    const maxIterations = 3;
+    const maxIterations = 50;
     const seenLinks = new Set();
 
     for (let i = 0; i < maxIterations; i++) {
