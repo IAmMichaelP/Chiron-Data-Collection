@@ -8,7 +8,7 @@ const csvWriter = require("csv-writer").createObjectCsvWriter;
     try {
         browser = await puppeteer.launch({ headless: false, slowMo: 0 });
         const page = await browser.newPage();
-        await page.goto('https://www.bbc.com/business');
+        await page.goto('https://www.abc.net.au/news/elections');
 
         const articleSelector = '.sc-225578b-0.btdqbl'; // Selector for each article
         const titleSelector = '.sc-9d830f2a-3.gCxBuB'; // Selector for the title
