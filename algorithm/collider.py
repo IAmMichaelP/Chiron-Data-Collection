@@ -1,11 +1,11 @@
 import pandas as pd
 
 # Step 1: Read the CSV file
-input_file = r"dataset1.csv"
+input_file = r"dataset5.csv"
 df = pd.read_csv(input_file)
 
 # Step 2: Verify and select only the required columns
-required_columns = ['link', 'title', 'annotation', 'content']
+required_columns = ['link', 'title', 'health_annotation', 'content']
 
 # Check if the required columns exist in the DataFrame
 if all(column in df.columns for column in required_columns):
@@ -19,7 +19,7 @@ df['content'] = df['content'].str.replace('\s+', ' ', regex=True)  # Replace mul
 df['content'] = df['content'].str.strip()  # Remove leading and trailing spaces
 
 # Step 4: Define the output file path
-output_file = r"./dataset4.csv"
+output_file = r"./general_dataset.csv"
 
 # Step 5: Check if the output file already exists
 if not pd.io.common.file_exists(output_file):

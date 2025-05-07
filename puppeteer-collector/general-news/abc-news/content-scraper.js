@@ -2,7 +2,7 @@ const puppeteer = require("puppeteer");
 const Papa = require('papaparse');
 const fs = require('fs');
 
-const csvFilePath = 'scraped_data2.csv';
+const csvFilePath = 'scraped_data1.csv';
 const targetColumn = 'link';
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
