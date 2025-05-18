@@ -6,7 +6,7 @@ const csvWriter = require("csv-writer").createObjectCsvWriter;
 (async () => {
     const browser = await puppeteer.launch({ headless: false, slowMo: 0 });
     const page = await browser.newPage();
-    await page.goto('https://www.abc.net.au/news/sport', { waitUntil: 'networkidle2' });
+    await page.goto('https://www.abc.net.au/news/health', { waitUntil: 'networkidle2' });
 
     const articleSelector = '.DetailCard_card__oooSN';
     const titleSelector = '.DetailCard_link__qM1Oi';

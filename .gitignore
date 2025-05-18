@@ -2,3 +2,6 @@
 /node_modules
 C:\Users\agaro\Documents\GitHub\Chiron\dataset_collector\venv
 /dataset_collector/venv
+/algorithm/general_model
+/algorithm/distilbert_model3
+/algorithm/distilbert_model4
