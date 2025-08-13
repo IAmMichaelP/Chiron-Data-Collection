@@ -1,0 +1,55 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0" version="27.0.6">
+  <diagram name="CHIRON Context Diagram" id="Jntj0q3VZPzL9ikrlWD6">
+    <mxGraphModel dx="1634" dy="952" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="2" value="Users&#xa;- Researchers&#xa;- General Public" style="shape=rectangle;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="180" y="20" width="180" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="3" value="Frontend (Next.js)&#xa;- Paste link/content&#xa;- Display result" style="shape=rectangle;whiteSpace=wrap;html=1;fillColor=#dae8fc;" parent="1" vertex="1">
+          <mxGeometry x="180" y="140" width="180" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="4" value="Express Backend (Node.js)&#xa;/api/classify → Flask&#xa;/api/scrape → Puppeteer&#xa;/api/articles?page=1&#xa;" style="shape=rectangle;whiteSpace=wrap;html=1;fillColor=#e1d5e7;" parent="1" vertex="1">
+          <mxGeometry x="180" y="260" width="220" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="5" value="Flask Classifier&#xa;- DistilBERT&#xa;- Health vs General&#xa;- Authentic vs Fake" style="shape=rectangle;whiteSpace=wrap;html=1;fillColor=#f8cecc;" parent="1" vertex="1">
+          <mxGeometry x="30" y="400" width="180" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="6" value="Puppeteer Scraper API&#xa;- Open page&#xa;- Clean/Extract content" style="shape=rectangle;whiteSpace=wrap;html=1;fillColor=#d5e8d4;" parent="1" vertex="1">
+          <mxGeometry x="460" y="370" width="200" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="7" value="MongoDB Atlas&#xa;- Stores classified articles" style="shape=rectangle;whiteSpace=wrap;html=1;fillColor=#fff2cc;" parent="1" vertex="1">
+          <mxGeometry x="234" y="430" width="180" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="8" value="CRON Service (Node.js)&#xa;- fetchAndStoreArticles()&#xa;- Classify &amp; Store" style="shape=rectangle;whiteSpace=wrap;html=1;fillColor=#f5f5f5;" parent="1" vertex="1">
+          <mxGeometry x="224" y="585" width="200" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="9" style="endArrow=block;html=1;" parent="1" source="2" target="3" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="10" style="endArrow=block;html=1;" parent="1" source="3" target="4" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="11" style="endArrow=block;html=1;" parent="1" source="4" target="5" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="12" style="endArrow=block;html=1;" parent="1" source="4" target="6" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="13" style="endArrow=block;html=1;" parent="1" source="4" target="7" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="14" style="endArrow=block;html=1;" parent="1" source="8" target="6" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="15" style="endArrow=block;html=1;" parent="1" source="8" target="5" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="16" style="endArrow=block;html=1;" parent="1" source="8" target="7" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
